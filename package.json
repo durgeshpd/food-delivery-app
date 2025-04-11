@@ -1,0 +1,33 @@
+{
+  "name": "react-tutorial",
+  "version": "1.0.0",
+  "description": "React tutorial",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/durgeshpd/react-tutorial.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Durgesh Pandey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/durgeshpd/react-tutorial/issues"
+  },
+  "homepage": "https://github.com/durgeshpd/react-tutorial#readme",
+  "devDependencies": {
+    "file-loader": "^6.2.0",
+    "parcel": "^2.14.2",
+    "url-loader": "^4.1.1"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^6.22.3",
+    "tailwindcss": "^4.1.3"
+  }
+}
