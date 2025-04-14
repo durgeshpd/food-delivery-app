@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './src/index.css';
 import Header from './src/components/Header';
@@ -7,8 +7,12 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import About from './src/components/About';
 import Contact from './src/components/Contact';
 import RestaurantMenu from './src/components/RestaurantMenu';
+import appStore from './src/utils/appStore';
+import { Provider } from 'react-redux';
+import Cart from './src/components/Cart';
+import Help from './src/components/Help';
 
-const Grocery = lazy(() => import('./src/components/Grocery'));
+const Grocery = React.lazy(() => import('./src/components/Grocery'));
 
 const AppLayout = () => {
   const [resetFlag, setResetFlag] = useState(false);
@@ -19,10 +23,12 @@ const AppLayout = () => {
   };
 
   return (
-    <div>
-      <Header onLogoClick={handleReset} /> {/* ✅ Pass reset handler */}
-      <Outlet context={{ resetFlag }} />   {/* ✅ Share with Body */}
-    </div>
+    <Provider store={appStore}>
+      <div>
+        <Header onLogoClick={handleReset} />
+        <Outlet context={{ resetFlag }} />
+      </div>
+    </Provider>
   );
 };
 
@@ -33,7 +39,7 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Body />,
+        element: <Body />, // The Body handles the search functionality now.
       },
       {
         path: '/about',
@@ -46,10 +52,18 @@ const appRouter = createBrowserRouter([
       {
         path: '/grocery',
         element: (
-          <Suspense fallback={<h1>Loading...</h1>}>
+          <React.Suspense fallback={<h1>Loading...</h1>}>
             <Grocery />
-          </Suspense>
+          </React.Suspense>
         ),
+      },
+      {
+        path: '/Cart',
+        element: <Cart />,
+      },
+      {
+        path: '/Help',
+        element: <Help />,
       },
       {
         path: '/restaurants/:resID',

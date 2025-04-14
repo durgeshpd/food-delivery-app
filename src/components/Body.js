@@ -1,46 +1,36 @@
-import RestaurantCard from "./RestaurantCard";
-import { useEffect, useState } from "react";
-import Shimmer from "./Shimmer";
-import { Link, useOutletContext } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import RestaurantCard from './RestaurantCard';
+import Shimmer from './Shimmer';
+import { Link } from 'react-router-dom';
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-  const [searchText, setSearchText] = useState("");
-
-  // Get reset flag from Outlet context
-  const { resetFlag } = useOutletContext() || {};
+  const [searchText, setSearchText] = useState(''); // Search state in Body
 
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    // Reset when logo is clicked
-    if (resetFlag) {
-      setSearchText("");
-      setFilteredRestaurants(listOfRestaurants);
-    }
-  }, [resetFlag, listOfRestaurants]);
-
-  const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9304278&lng=77.678404&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
-    const json = await data.json();
-    const restaurants = json?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-
-    setListOfRestaurants(restaurants);
-    setFilteredRestaurants(restaurants);
-  };
-
-  // Handle dynamic search
-  useEffect(() => {
+    // Filter restaurants when searchText changes
     const filtered = listOfRestaurants.filter((res) =>
       res.info.name.toLowerCase().includes(searchText.toLowerCase())
     );
     setFilteredRestaurants(filtered);
   }, [searchText, listOfRestaurants]);
+
+  const fetchData = async () => {
+    const data = await fetch(
+      'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9304278&lng=77.678404&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING'
+    );
+    const json = await data.json();
+    const restaurants =
+      json?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+
+    setListOfRestaurants(restaurants);
+    setFilteredRestaurants(restaurants);
+  };
 
   if (listOfRestaurants.length === 0) return <Shimmer />;
 
@@ -77,7 +67,7 @@ const Body = () => {
           filteredRestaurants.map((restaurant) => (
             <Link
               key={restaurant.info.id}
-              to={"/restaurants/" + restaurant.info.id}
+              to={'/restaurants/' + restaurant.info.id}
               className="transform transition duration-200 hover:scale-105"
             >
               <RestaurantCard resData={restaurant} />
