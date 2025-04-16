@@ -1,4 +1,5 @@
 const RestaurantCard = ({ resData }) => {
+    console.log(resData);
     const { name, cuisines, avgRating, cloudinaryImageId } = resData.info;
 
     return (
